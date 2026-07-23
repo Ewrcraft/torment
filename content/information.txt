@@ -1,0 +1,21 @@
+hp=""		Red Heart Containers, 1 container for every 2 hp
+armor=""	Soul Hearts, 1 full heart for every 2 armor
+black=""	Black Hearts, 1 full heart for every 2 black
+broken=""	Broken Heart Containers, 1 heart for every 1 broken
+coins=""	simply your starting coins
+keys=""		simply your starting keys
+bombs=""	simply your starting bombs
+
+birthright=""	just the description that appears when picking up birthright with the character, not the effect
+bSkinParent="" 	used when making a tainted character, put the normal character's name as the prompt
+
+card=""		the ID of the card/rune/soul you start with
+items="" 	the IDs of the active and/or passive items you start with, seperated by commas if you have multiple
+trinket=""	the ID of the trinket you start withs
+pocketActive="" the ID of the active item you start with in your card/pills slot
+
+Find IDs at https://platinumgod.co.uk/
+
+Any of these lines can be removed if you don't want to use them.
+
+Remember to replace the word template in both "players.xml" and "costumes2.xml"

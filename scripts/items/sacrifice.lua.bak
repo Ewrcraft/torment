@@ -1,0 +1,69 @@
+local Mod = Torment
+local SacraficeItem = {}
+SacraficeItem.ID = Isaac.GetItemIdByName("Sacrifice")
+local BabyItemPool = Game():GetItemPool()
+local player_foritems = Isaac.GetPlayer(0)
+
+OR, XOR, AND = 1, 3, 4
+
+function bitoper(a, b, oper)
+   local r, m, s = 0, 2^31
+   repeat
+      s,a,b = a+b+m, a%m, b%m
+      r,m = r + m*oper%(s-a-b), m/2
+   until m < 1
+   return r
+end
+
+function SacraficeItem:SacraficeUse(item)
+	local player_foritems = Isaac.GetPlayer(0)
+	local history = player_foritems:GetHistory()
+	local all_baby_items = {}
+	local baby_item_pool_ids = BabyItemPool:GetCollectiblesFromPool(Isaac.GetPoolIdByName("tormlilithbabypool"))
+	local firstcol = {}
+	for i, #baby_item_pool_ids do
+		table.insert(all_baby_items, baby_item_pool_ids[i].itemID)
+	end
+	for i = 1, 732 do
+		for k, value in ipairs(firstcol) do
+			if i == value then
+				table.insert(all_baby_items, i)
+			end
+		end
+	end
+	local isaac_has = history:SearchCollectibles(all_baby_items)
+	print(#all_baby_items)
+	for i, value in ipairs(isaac_has) do
+		if value:GetItemID() == 360 then
+			table.remove(isaac_has, i)
+			break -- Exit loop after finding and removing the item
+		end
+	end
+	if true then
+		local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
+		for i = #pedestals, 1, -1 do
+			if pedestals[i].SubType == 0 then
+				table.remove(pedestals, i)
+			end
+		end
+		if #pedestals == 0 then
+			if #isaac_has > 0 then
+				local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR)
+				familiar = familiars[1]
+				familiar_pos = familiar.Position
+				local item = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(-1), familiar_pos, Vector.Zero, player_foritems)
+				player_foritems:RemoveCollectible(isaac_has[1]:GetItemID())
+				player_foritems:AddBrokenHearts(1)
+			end
+		else
+			for i = #pedestals, 1, -1 do
+				local pedestal = pedestals[i]
+				print(pedestal.SubType)
+				pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(Isaac.GetPoolIdByName("tormlilithbabypool")), true)
+				print(pedestal.SubType)
+			end
+		end
+	end
+end
+
+Mod:AddCallback(ModCallbacks.MC_USE_ITEM, SacraficeItem.SacraficeUse, SacraficeItem.ID)

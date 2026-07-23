@@ -1,0 +1,22 @@
+You can modify damage, tears, speed, shot speed, range, tear height, tear falling speed, luck, tear behavior (tearflags), tear color, and flight in the "main.lua" file using notepad.
+You can modify starting items, cards/runes/souls, trinkets, pickups, and health in the "players.xml" under the "content" folder using notepad.
+
+More information about customization in the "\main.lua" and "\content\information.txt" files.
+
+To customize the base looks of your characters just change the template pngs, further customization can be done in the .anm2 files under "\content\gfx" via using the "IsaacAnimationEditor" that comes with your install of TBoI.
+
+Change every single instance of the word "template" with your character or mods name.
+
+You are free to use this mod in any way you want, no need to give credit.
+
+
+NOTE ON TEARS STAT:
+In the "main.lua" file you will be editing the FIREDELAY variable.
+This variable does determine your tears stat, but to find your actual in-game tears stat you have to use "TEARS = 30 / (FIREDELAY + 1)"
+This means that to get the 2.73 base tears you input 10, which actually gets you a 2.727272... which the game seems to round up
+If you want a specific value for tears, in order to get the correct FIREDELAY you would need to do "FIREDELAY = (30 / TEARS) - 1"
+
+
+NOTE ON MESSED UP GRAPHICS:
+If your graphics come back all dark and messed up you need your .png bit depth to be 32
+If your graphics are just offset then edit the .anm2 files
