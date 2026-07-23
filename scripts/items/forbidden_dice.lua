@@ -10,7 +10,7 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 		local BabyItemPool = Game():GetItemPool()
 		if not m_or_s then
 			item_id_rollto = BabyItemPool:GetCollectible(BabyItemPool:GetPoolForRoom(Game():GetRoom():GetType(), math.random(100)))
-			if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (75 - (player_luck*5))) then
+			if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) then
 				birthright_filtered_items(m_or_s, pedestal)
 			else
 				pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
@@ -48,7 +48,7 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 			end
 		end
 		for i = #pedestals, 1, -1 do
-			if (math.random()*100) < (75 - (player_luck*5)) then
+			if (math.random()*100) < (50 - (player_luck*5)) then
 				pedestals[i]:Remove()
 				player_foritems.Luck = player_foritems.Luck + 1
 			else
