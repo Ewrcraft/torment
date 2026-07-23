@@ -2,9 +2,9 @@ local Mod = Torment
 local ForbiddenDiceItem = {}
 ForbiddenDiceItem.ID = Isaac.GetItemIdByName("Forbidden dice")
 local BabyItemPool = Game():GetItemPool()
-local player_foritems = Isaac.GetPlayer(0)
 
 function ForbiddenDiceItem:ForbiddenDiceUse(item)
+	local player_foritems = Isaac.GetPlayer(0)
 	local player_luck = player_foritems.Luck
 	local function birthright_filtered_items(m_or_s, pedestal)
 		if not m_or_s then
