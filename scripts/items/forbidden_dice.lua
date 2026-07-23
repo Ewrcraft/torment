@@ -9,7 +9,7 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 	local function birthright_filtered_items(m_or_s, pedestal)
 		local BabyItemPool = Game():GetItemPool()
 		if not m_or_s then
-			item_id_rollto = BabyItemPool:GetCollectible(BabyItemPool:GetPoolForRoom(Game():GetRoom():GetType()))
+			item_id_rollto = BabyItemPool:GetCollectible(BabyItemPool:GetPoolForRoom(Game():GetRoom():GetType(), math.random(100)))
 			if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (75 - (player_luck*5))) then
 				birthright_filtered_items(m_or_s, pedestal)
 			else
