@@ -21,7 +21,7 @@ function SacraficeItem:SacraficeUse(item)
 	local all_baby_items = {}
 	local baby_item_pool_ids = BabyItemPool:GetCollectiblesFromPool(Isaac.GetPoolIdByName("tormlilithbabypool"))
 	local firstcol = {}
-	for i, #baby_item_pool_ids do
+	for i = 1, #baby_item_pool_ids do
 		table.insert(all_baby_items, baby_item_pool_ids[i].itemID)
 	end
 	for i = 1, 732 do
