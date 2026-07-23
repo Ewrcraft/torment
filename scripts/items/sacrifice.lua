@@ -16,6 +16,52 @@ function bitoper(a, b, oper)
 end
 
 function SacraficeItem:SacraficeUse(item)
+	local function birthright_filtered_items(m_or_s, pedestal)
+		print("func start, mode:")
+		print(m_or_s)
+		print("")
+		if not m_or_s then
+			item_id_rollto = BabyItemPool:GetCollectible(Isaac.GetPoolIdByName("tormlilithbabypool"))
+			print("rolled into:")
+			print(item_id_rollto)
+			print("")
+			if Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality < 2 then
+				print("quality was:")
+				print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality)
+				print("")
+				print("self-calling!")
+				print("")
+				birthright_filtered_items(m_or_s, pedestal)
+			else
+				print("quality was:")
+				print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality)
+				print("")
+				print("morphing!")
+				print("")
+				pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
+			end
+		else
+			item_id_rollto = BabyItemPool:GetCollectible(math.random(31))
+			print("rolled into:")
+			print(item_id_rollto)
+			print("")
+			if Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality < 2 then
+				print("quality was:")
+				print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality)
+				print("")
+				print("self-calling!")
+				print("")
+				birthright_filtered_items(m_or_s, pedestal)
+			else
+				print("quality was:")
+				print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality)
+				print("")
+				print("spawning!")
+				print("")
+				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, familiar_pos, Vector.Zero, player_foritems)
+			end
+		end
+	end
 	local player_foritems = Isaac.GetPlayer(0)
 	local history = player_foritems:GetHistory()
 	local all_baby_items = {}
@@ -32,7 +78,7 @@ function SacraficeItem:SacraficeUse(item)
 		end
 	end
 	local isaac_has = history:SearchCollectibles(all_baby_items)
-	print(#all_baby_items)
+	local has_birthright = history:SearchCollectibles(619)
 	for i, value in ipairs(isaac_has) do
 		if value:GetItemID() == 360 then
 			table.remove(isaac_has, i)
@@ -51,16 +97,22 @@ function SacraficeItem:SacraficeUse(item)
 				local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR)
 				familiar = familiars[1]
 				familiar_pos = familiar.Position
-				local item = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(-1), familiar_pos, Vector.Zero, player_foritems)
+				if has_birthright[1] ~= nil then
+					birthright_filtered_items(true, nil)
+				else
+					Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(-1), familiar_pos, Vector.Zero, player_foritems)
+				end
 				player_foritems:RemoveCollectible(isaac_has[1]:GetItemID())
 				player_foritems:AddBrokenHearts(1)
 			end
 		else
 			for i = #pedestals, 1, -1 do
 				local pedestal = pedestals[i]
-				print(pedestal.SubType)
-				pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(Isaac.GetPoolIdByName("tormlilithbabypool")), true)
-				print(pedestal.SubType)
+				if has_birthright[1] ~= nil then
+					birthright_filtered_items(false, pedestal)
+				else
+					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(Isaac.GetPoolIdByName("tormlilithbabypool")), true)
+				end
 			end
 		end
 	end

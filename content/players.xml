@@ -7,7 +7,7 @@
         skin="character_template.png" 
         nameimage="playername_template.png" 
         portrait="playerportrait_template.png"
-        birthright="This is just cosmetic." 
+        birthright="Sacrafice them, items... or friends" 
         hp="2" 
         black="4"
         bombs="1" 

@@ -15,18 +15,4 @@
         canShoot="False" 
         items="360"
     />
-    <player 
-        name="TormentedLilith" 
-        bSkinParent="TormentedLilith"
-        skin="character_template.png" 
-        nameimage="playername_template.png" 
-        portrait="playerportrait_template.png"
-        birthright="This is just cosmetic, again."
-        armor="2"
-        card="35"
-        items="686"
-        pocketActive="285"
-        skinColor="-1"
-        canShoot="True"
-    />
 </players>
