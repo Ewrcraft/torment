@@ -58,7 +58,7 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 				pedestals[i]:Remove()
 				player_foritems.Luck = player_foritems.Luck + 1
 			else
-				birthright_filtered_items(false, pedestal[i])
+				birthright_filtered_items(false, pedestals[i])
 			end
 		end
 	end
