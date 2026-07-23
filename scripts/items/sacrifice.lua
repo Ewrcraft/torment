@@ -41,7 +41,7 @@ function SacraficeItem:SacraficeUse(item)
 				pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
 			end
 		else
-			item_id_rollto = BabyItemPool:GetCollectible(math.random(31))
+			item_id_rollto = BabyItemPool:GetCollectible(math.random(BabyItemPool:GetLastPool()))
 			print("rolled into:")
 			print(item_id_rollto)
 			print("")

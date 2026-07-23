@@ -1,4 +1,3 @@
 <items gfxroot="gfx/items/" version="1">
 	<active id="1" name="Sacrifice" gfx="Sacrafice_item.png" description="First, items, then your friends... what's next?" quality="4" maxcharges="4" chargetype="normal" hidden="false" />
-	<active id="2" name="Forbidden dice" gfx="Forbidden_dice_item.png" description="Breaking the oath comes with consequences" quality="4" maxcharges="4" chargetype="normal" hidden="false" />
 </items>

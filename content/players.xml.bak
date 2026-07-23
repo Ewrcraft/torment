@@ -7,7 +7,7 @@
         skin="character_template.png" 
         nameimage="playername_template.png" 
         portrait="playerportrait_template.png"
-        birthright="This is just cosmetic." 
+        birthright="Sacrafice them, items... or friends" 
         hp="2" 
         black="4"
         bombs="1" 
@@ -15,4 +15,16 @@
         canShoot="False" 
         items="360"
     />
+	<player
+		name="Tormented Lost" 
+        skin="character_template_2.png" 
+        nameimage="playername_template_2.png" 
+        portrait="playerportrait_template_2.png"
+        birthright="Quality found" 
+        hp="0" 
+        armor="1" 
+        skinColor="-1"
+        canShoot="True" 
+        items="313"
+	/>
 </players>

@@ -1,0 +1,66 @@
+local Mod = Torment
+local ForbiddenDiceItem = {}
+ForbiddenDiceItem.ID = Isaac.GetItemIdByName("Forbidden dice")
+local BabyItemPool = Game():GetItemPool()
+local player_foritems = Isaac.GetPlayer(0)
+
+function ForbiddenDiceItem:ForbiddenDiceUse(item)
+	local player_luck = player_foritems.Luck
+	local function birthright_filtered_items(m_or_s, pedestal)
+		if not m_or_s then
+			item_id_rollto = BabyItemPool:GetCollectible(BabyItemPool:GetPoolForRoom(Game():GetRoom():GetType()))
+			if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (75 - (player_luck*5))) then
+				birthright_filtered_items(m_or_s, pedestal)
+			else
+				pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
+			end
+		else
+			item_id_rollto = BabyItemPool:GetCollectible(math.random(31))
+			if Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4 then
+				birthright_filtered_items(m_or_s, pedestal)
+			else
+				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, familiar_pos, Vector.Zero, player_foritems)
+			end
+		end
+	end
+	local player_foritems = Isaac.GetPlayer(0)
+	local history = player_foritems:GetHistory()
+	local all_baby_items = {}
+	local baby_item_pool_ids = BabyItemPool:GetCollectiblesFromPool(Isaac.GetPoolIdByName("tormlilithbabypool"))
+	local firstcol = {}
+	for i = 1, #baby_item_pool_ids do
+		table.insert(all_baby_items, baby_item_pool_ids[i].itemID)
+	end
+	for i = 1, 732 do
+		for k, value in ipairs(firstcol) do
+			if i == value then
+				table.insert(all_baby_items, i)
+			end
+		end
+	end
+	local isaac_has = history:SearchCollectibles(all_baby_items)
+	local has_birthright = history:SearchCollectibles(619)
+	for i, value in ipairs(isaac_has) do
+		if value:GetItemID() == 360 then
+			table.remove(isaac_has, i)
+			break -- Exit loop after finding and removing the item
+		end
+	end
+	if true then
+		local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
+		for i = #pedestals, 1, -1 do
+			if (pedestals[i].SubType == 0) or (pedestals[i].SubType == 668) then
+				table.remove(pedestals, i)
+			end
+		end
+		for i = #pedestals, 1, -1 do
+			if (math.random()*100) < (75 - (player_luck*5)) then
+				pedestals[i]:Remove()
+			else
+				birthright_filtered_items(false, pedestal[i])
+			end
+		end
+	end
+end
+
+Mod:AddCallback(ModCallbacks.MC_USE_ITEM, ForbiddenDiceItem.ForbiddenDiceUse, ForbiddenDiceItem.ID)

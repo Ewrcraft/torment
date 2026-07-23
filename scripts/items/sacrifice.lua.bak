@@ -97,16 +97,22 @@ function SacraficeItem:SacraficeUse(item)
 				local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR)
 				familiar = familiars[1]
 				familiar_pos = familiar.Position
-				birthright_filtered_items(true, nil)
-				--Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(-1), familiar_pos, Vector.Zero, player_foritems)
+				if has_birthright[1] ~= nil then
+					birthright_filtered_items(true, nil)
+				else
+					Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(-1), familiar_pos, Vector.Zero, player_foritems)
+				end
 				player_foritems:RemoveCollectible(isaac_has[1]:GetItemID())
 				player_foritems:AddBrokenHearts(1)
 			end
 		else
 			for i = #pedestals, 1, -1 do
 				local pedestal = pedestals[i]
-				birthright_filtered_items(false, pedestal)
-				--pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(Isaac.GetPoolIdByName("tormlilithbabypool")), true)
+				if has_birthright[1] ~= nil then
+					birthright_filtered_items(false, pedestal)
+				else
+					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(Isaac.GetPoolIdByName("tormlilithbabypool")), true)
+				end
 			end
 		end
 	end
