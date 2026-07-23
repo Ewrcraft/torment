@@ -3,3 +3,4 @@ Torment = RegisterMod("Torment", 1)
 local Mod = Torment
 
 include("scripts/items/sacrifice")
+include("scripts/characters/Tormented_Lilith")

@@ -2,4 +2,5 @@ Torment = RegisterMod("Torment", 1)
 
 local Mod = Torment
 
-Sacrifice_code = include("scripts/items/sacrifice")
+include("scripts/items/sacrifice")
+inclued("scripts/characters/Tormented_Lilith")

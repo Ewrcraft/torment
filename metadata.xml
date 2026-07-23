@@ -1,32 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-    <name>Repentance Character Template</name>
-    <directory>repentance character template</directory>
-    <id>3221854570</id>
-    <description>2024-4-22
- - Flight Issue Fixed
-
-2024-4-19 
- - Stats Issue Fixed
-
-
-Simple Character Template for The Binding of Isaac Repentance
-
-Some Information files in the mod files
-
-Edit Starting Items in &quot;\content\players.xml&quot;
-
-Edit Stats in &quot;\main.lua&quot;
-
-Edit Player Sprites in &quot;\resources\gfx\characters\costumes&quot;
-
-Edit other important graphics in &quot;\resources\gfx\ui&quot;
-
-Please tell me if i'm missing something so that I can expand this.
-I'm working on adding the custom ghost, custom flight variations, and tainted characters.
-Also I have not tested the co-op features.</description>
-    <version>1.9</version>
-    <visibility>Public</visibility>
-    <tag id="Lua"/>
-    <tag id="Player Characters"/>
+	<name>torment</name>
+	<directory>torment</directory>
+	<description/>
+	<version>1.0</version>
+	<visibility/>
 </metadata>
+

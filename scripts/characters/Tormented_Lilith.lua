@@ -54,3 +54,20 @@ function Mod:onCache(player, cacheFlag)
 end
 
 Mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Mod.onCache)
+
+local char = Isaac.GetPlayerTypeByName("Tormented Lilith")
+local item_id = Isaac.GetItemIdByName("Sacrifice")
+local game = Game()
+
+function Mod:TormentedLilithInit(player)
+	if player:GetPlayerType() ~= char then
+		return
+	end
+	
+	player:SetPocketActiveItem(item_id, ActiveSlot.SLOT_POCKET, true)
+	
+	local pool = game:GetItemPool()
+	pool:RemoveCollectible(item_id)
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, Mod.TormentedLilithInit)
