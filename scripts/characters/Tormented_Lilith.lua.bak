@@ -64,7 +64,7 @@ function Mod:TormentedLilithInit(player)
 		return
 	end
 	
-	player:SetPocketActiveItem(item_id, Active.SLOT_POCKET, true)
+	player:AddCollectible(item_id, 4)
 	
 	local pool = game:GetItemPool()
 	pool:RemoveCollectible(item_id)
