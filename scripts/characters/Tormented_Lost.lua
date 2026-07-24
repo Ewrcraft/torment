@@ -85,7 +85,7 @@ function Mod:TormentedLostInit(player)
 		return
 	end
 	
-	player:SetPocketActiveItem(item_id, ActiveSlot.SLOT_POCKET, true)
+	player:SetPocketActiveItem(item_id, ActiveSlot.SLOT_PRIMARY, true)
 	
 	local pool = game:GetItemPool()
 	pool:RemoveCollectible(item_id)
