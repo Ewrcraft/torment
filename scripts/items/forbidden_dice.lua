@@ -2,6 +2,7 @@ local Mod = Torment
 local ForbiddenDiceItem = {}
 ForbiddenDiceItem.ID = Isaac.GetItemIdByName("Forbidden dice")
 local ForbiddenLuckUp = Isaac.GetNullItemIdByName("ForbiddenLuckUp")
+local ForbiddenLuckDown = Isaac.GetNullItemIdByName("ForbiddenLuckDown")
 local BabyItemPool = Game():GetItemPool()
 
 
@@ -62,11 +63,10 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 		for i = #pedestals, 1, -1 do
 			if (math.random()*100) < (50 - (player_luck*5)) and not (pedestals[i]:ToPickup():IsShopItem()) then
 				pedestals[i]:Remove()
-				print("I cool")
-				print(ForbiddenLuckUp)
 				tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
 			else
 				birthright_filtered_items(false, pedestals[i])
+				tempEffects:AddNullEffect(ForbiddenLuckDown, false, 1)
 			end
 		end
 	end

@@ -26,5 +26,6 @@
         skinColor="-1"
         canShoot="True" 
         items="313"
+        HealthType="2"
 	/>
 </players>
