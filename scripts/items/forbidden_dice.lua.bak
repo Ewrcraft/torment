@@ -10,19 +10,19 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 	local player_foritems = Isaac.GetPlayer(0)
 	local tempEffects = player:GetEffects()
 	local player_luck = player_foritems.Luck
-	local function birthright_filtered_items(m_or_s, pedestal)
+	local function birthright_filtered_items(m_or_s, pedestal, has_birthright_bool)
 		local BabyItemPool = Game():GetItemPool()
 		if not m_or_s then
 			item_id_rollto = BabyItemPool:GetCollectible(BabyItemPool:GetPoolForRoom(Game():GetRoom():GetType(), math.random(100)))
 			if item_id_rollto ~= 0 then
-				if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) then
+				if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) and not (has_birthright_bool) then
 					birthright_filtered_items(m_or_s, pedestal)
 				else
 					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
 				end
 			else
 				item_id_rollto = BabyItemPool:GetCollectible(math.random(BabyItemPool:GetLastPool()))
-				if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) then
+				if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) and not (has_birthright_bool) then
 					birthright_filtered_items(m_or_s, pedestal)
 				else
 					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
@@ -56,12 +56,12 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 	if true then
 		local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 		for i = #pedestals, 1, -1 do
-			if (pedestals[i].SubType == 0) or (pedestals[i].SubType == 668) or (pedestals[i]:ToPickup():IsBlind()) then
+			if (pedestals[i].SubType == 0) or (pedestals[i].SubType == 668) then
 				table.remove(pedestals, i)
 			end
 		end
 		for i = #pedestals, 1, -1 do
-			if (math.random()*100) < (50 - (player_luck*5)) and not (pedestals[i]:ToPickup():IsShopItem()) then
+			if (math.random()*100) < (50 - (player_luck*5)) and not (pedestals[i]:ToPickup():IsShopItem()) and not (pedestals[i]:ToPickup():IsBlind()) then
 				pedestals[i]:Remove()
 				tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
 			else

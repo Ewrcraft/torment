@@ -10,19 +10,19 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 	local player_foritems = Isaac.GetPlayer(0)
 	local tempEffects = player:GetEffects()
 	local player_luck = player_foritems.Luck
-	local function birthright_filtered_items(m_or_s, pedestal)
+	local function birthright_filtered_items(m_or_s, pedestal, has_birthright_bool)
 		local BabyItemPool = Game():GetItemPool()
 		if not m_or_s then
 			item_id_rollto = BabyItemPool:GetCollectible(BabyItemPool:GetPoolForRoom(Game():GetRoom():GetType(), math.random(100)))
 			if item_id_rollto ~= 0 then
-				if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) then
+				if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) and not (has_birthright_bool) then
 					birthright_filtered_items(m_or_s, pedestal)
 				else
 					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
 				end
 			else
 				item_id_rollto = BabyItemPool:GetCollectible(math.random(BabyItemPool:GetLastPool()))
-				if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) then
+				if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) and not (has_birthright_bool) then
 					birthright_filtered_items(m_or_s, pedestal)
 				else
 					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
@@ -47,6 +47,7 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 	end
 	local isaac_has = history:SearchCollectibles(all_baby_items)
 	local has_birthright = history:SearchCollectibles(619)
+	local has_birthright_b = has_birthright[1] ~= nil
 	for i, value in ipairs(isaac_has) do
 		if value:GetItemID() == 360 then
 			table.remove(isaac_has, i)
@@ -65,7 +66,7 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 				pedestals[i]:Remove()
 				tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
 			else
-				birthright_filtered_items(false, pedestals[i])
+				birthright_filtered_items(false, pedestals[i], has_birthright_b)
 				tempEffects:AddNullEffect(ForbiddenLuckDown, false, 1)
 			end
 		end
