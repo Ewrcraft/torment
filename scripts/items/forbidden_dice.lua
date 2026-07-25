@@ -61,7 +61,7 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 			end
 		end
 		for i = #pedestals, 1, -1 do
-			if (math.random()*100) < (50 - (player_luck*5)) and not (pedestals[i]:ToPickup():IsShopItem()) then
+			if (math.random()*100) < (50 - (player_luck*5)) and not (pedestals[i]:ToPickup():IsShopItem()) and not (pedestals[i]:ToPickup():IsBlind()) then
 				pedestals[i]:Remove()
 				tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
 			else

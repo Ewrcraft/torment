@@ -1,10 +1,14 @@
 local Mod = Torment
 local ForbiddenDiceItem = {}
 ForbiddenDiceItem.ID = Isaac.GetItemIdByName("Forbidden dice")
+local ForbiddenLuckUp = Isaac.GetNullItemIdByName("ForbiddenLuckUp")
+local ForbiddenLuckDown = Isaac.GetNullItemIdByName("ForbiddenLuckDown")
 local BabyItemPool = Game():GetItemPool()
+
 
 function ForbiddenDiceItem:ForbiddenDiceUse(item)
 	local player_foritems = Isaac.GetPlayer(0)
+	local tempEffects = player:GetEffects()
 	local player_luck = player_foritems.Luck
 	local function birthright_filtered_items(m_or_s, pedestal)
 		local BabyItemPool = Game():GetItemPool()
@@ -52,17 +56,17 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 	if true then
 		local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 		for i = #pedestals, 1, -1 do
-			if (pedestals[i].SubType == 0) or (pedestals[i].SubType == 668) then
+			if (pedestals[i].SubType == 0) or (pedestals[i].SubType == 668) or (pedestals[i]:ToPickup():IsBlind()) then
 				table.remove(pedestals, i)
 			end
 		end
 		for i = #pedestals, 1, -1 do
-			if (math.random()*100) < (50 - (player_luck*5)) and not pedestals[i]:ToPickup():IsShopItem then
+			if (math.random()*100) < (50 - (player_luck*5)) and not (pedestals[i]:ToPickup():IsShopItem()) then
 				pedestals[i]:Remove()
-				player_foritems:AddCacheFlags(CacheFlag.CACHE_LUCK)
-				player_foritems:EvaluateItems()
+				tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
 			else
 				birthright_filtered_items(false, pedestals[i])
+				tempEffects:AddNullEffect(ForbiddenLuckDown, false, 1)
 			end
 		end
 	end
