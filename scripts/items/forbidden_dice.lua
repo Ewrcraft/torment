@@ -21,7 +21,7 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
 				end
 			else
-				item_id_rollto = BabyItemPool:GetCollectible(math.random(BabyItemPool:GetLastPool()))
+				item_id_rollto = BabyItemPool:GetCollectible(math.random(1))
 				if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) and not (has_birthright_bool) then
 					birthright_filtered_items(m_or_s, pedestal)
 				else

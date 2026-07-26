@@ -5,7 +5,7 @@
     <player 
         name="Tormented Lilith" 
         skin="character_template.png" 
-        nameimage="playername_template.png" 
+        nameimage="lilith_name_placeholder.png" 
         portrait="playerportrait_template.png"
         birthright="Sacrafice them, items... or friends" 
         hp="2" 
@@ -20,12 +20,23 @@
         skin="character_template_2.png" 
         nameimage="playername_template_2.png" 
         portrait="playerportrait_template_2.png"
-        birthright="Quality found" 
+        birthright="Luck way up" 
         hp="0" 
         armor="1" 
         skinColor="-1"
         canShoot="True" 
         items="313"
         HealthType="2"
+	/>
+	<player
+		name="Tormented Lazarus" 
+        skin="character_template_3.png" 
+        nameimage="playername_template_3.png" 
+        portrait="playerportrait_template_3.png"
+        birthright="Damage up"
+        hp="4" 
+        armor="0" 
+        skinColor="-1"
+        canShoot="True" 
 	/>
 </players>

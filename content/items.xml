@@ -3,4 +3,6 @@
 	<active id="2" name="Forbidden dice" gfx="Forbidden_dice_item.png" description="Breaking the oath comes with consequences" quality="3" maxcharges="4" chargetype="normal" hidden="false" />
 	<null name="ForbiddenLuckUp" quality="0" hidden="true" persistent="true" luck="1"/>
 	<null name="ForbiddenLuckDown" quality="0" hidden="true" persistent="true" luck="-0.5"/>
+	<null name="LazarusDamageDown" quality="0" hidden="true" persistent="true" damage="-0.0005"/>
+	<null name="LazarusDamageUp" quality="0" hidden="true" persistent="true" damage="1"/>
 </items>

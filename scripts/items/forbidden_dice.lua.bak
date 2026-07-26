@@ -47,6 +47,7 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 	end
 	local isaac_has = history:SearchCollectibles(all_baby_items)
 	local has_birthright = history:SearchCollectibles(619)
+	local has_birthright_b = has_birthright[1] ~= nil
 	for i, value in ipairs(isaac_has) do
 		if value:GetItemID() == 360 then
 			table.remove(isaac_has, i)
@@ -65,7 +66,7 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 				pedestals[i]:Remove()
 				tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
 			else
-				birthright_filtered_items(false, pedestals[i])
+				birthright_filtered_items(false, pedestals[i], has_birthright_b)
 				tempEffects:AddNullEffect(ForbiddenLuckDown, false, 1)
 			end
 		end
