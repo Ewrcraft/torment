@@ -7,7 +7,7 @@ local characterCostume = Isaac.GetCostumeIdByPath("gfx/characters/costume_templa
 local Template = { -- shown below are default values, as shown on Isaac, for you to change around
     SPEED = 1.00,
     FIREDELAY = 10, -- your tears stat is "30/(FIREDELAY+1)"
-    DAMAGE = 3.50, -- is only the damage stat, not damage multiplier
+    DAMAGE = 3.5, -- is only the damage stat, not damage multiplier
     RANGE = 260, -- your range stat is "40*RANGE"
     SHOTSPEED = 1.00,
     LUCK = 0.00,
@@ -58,6 +58,7 @@ Mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Mod.onCache)
 local char = Isaac.GetPlayerTypeByName("Tormented Lilith")
 local item_id = Isaac.GetItemIdByName("Sacrifice")
 local game = Game()
+local LilithCoolMultiplier = Isaac.GetNullItemIdByName("LilithCoolMultiplier")
 
 function Mod:TormentedLilithInit(player)
 	if player:GetPlayerType() ~= char then
@@ -68,6 +69,8 @@ function Mod:TormentedLilithInit(player)
 	
 	local pool = game:GetItemPool()
 	pool:RemoveCollectible(item_id)
+    local tempEffects = player:GetEffects()
+    tempEffects:AddNullEffect(LilithCoolMultiplier, false, 1)
 end
 
 Mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, Mod.TormentedLilithInit)
