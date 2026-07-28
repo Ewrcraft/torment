@@ -1,5 +1,5 @@
 local Mod = Torment
-
+LazarusDamageDown
  -- Change every instance of the word "Template" in this file with your character's name, without spaces
 
 local characterCostume = Isaac.GetCostumeIdByPath("gfx/characters/costume_template.anm2")
@@ -94,6 +94,7 @@ end
 Mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, Mod.TormentedLostInit)
 
 function Mod:OnBirthrightPickup(Collectible_type, charge, FirstTime, Slot, VarData, player)
+	local tempEffects = player:GetEffects()
 	local ForbiddenLuckUp = Isaac.GetNullItemIdByName("ForbiddenLuckUp")
 	if Collectible_type == 619 then
 		tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)

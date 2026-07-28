@@ -28,7 +28,11 @@ function Mod:onCache(player, cacheFlag)
             player.MaxFireDelay = player.MaxFireDelay - 10 + Template.FIREDELAY
         end
         if cacheFlag == CacheFlag.CACHE_DAMAGE then
+			print("Evaluated DMG")
             player.Damage = player.Damage - 3.5 + Template.DAMAGE
+			if LazarusDamageDownCache.NeedToReeval == true then
+				player.Damage = player.Damage - 3.5 + Template.DAMAGE + LazarusDamageDownCache.Cache
+			end
         end
         if cacheFlag == CacheFlag.CACHE_RANGE then
             player.TearRange = player.TearRange - 260 + Template.RANGE
@@ -55,26 +59,57 @@ end
 
 Mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Mod.onCache)
 
+
+local function onStart(_,bool)
+    print(bool)
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, onStart)
+
+local function OnRunStartLaz(_,bool)
+	player = Isaac.GetPlayer(0)
+	print("OnRunStart correctly called, IsContinued: ")
+	print(bool)
+	if not bool then
+		LazarusDamageDownCache.NeedToReeval = true
+		LazarusDamageDownCache.Cache = 0
+		print("Ran the not continued branch")
+	end
+	if bool then
+		LazarusDamageDownCache.NeedToReeval = true
+		player.Damage = player.Damage + LazarusDamageDownCache.Cache
+		print("Ran the continued branch")
+	end
+	player:AddCacheFlags(CacheFlag.CACHE_DAMAGE, true)
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, OnRunStartLaz)
+
+function Mod:TormentedLazarusInit(player)
+	--LazarusDamageDownCache = EntitySaveStateManager.GetEntityData(Mod, player)
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, Mod.TormentedLazarusInit)
+
 function Mod:LazarusConstantDamageDrain(player)
 	if player:GetName() == "Tormented Lazarus" then
-		local tempEffects = player:GetEffects()
-		local ForbiddenLuckUp = Isaac.GetNullItemIdByName("LazarusDamageDown")
-		tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
-	end
-	if (player.Damage == 0.5) and (player:GetName() == "Tormented Lazarus") then
-		if player:GetSoulHearts() > 0 then
-			player:AddSoulHearts(-1*(player:GetSoulHearts() - 1))
-		end
-		if player:GetMaxHearts() > 0 then
-			player:AddMaxHearts(-1*(player:GetMaxHearts() - 0))
-		end
-		if player:GetBoneHearts() > 0 then
-			player:AddBoneHearts(-1*(player:GetBoneHearts() - 0))
-		end
-		if player:GetEternalHearts() > 0 then
-			player:AddEternalHearts(-1*(player:GetEternalHearts() - 0))
-		end
+		player.Damage = player.Damage - 0.0005
+		LazarusDamageDownCache.Cache = LazarusDamageDownCache.Cache - 0.0005
 	end
 end
 
 Mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, Mod.LazarusConstantDamageDrain)
+
+function Mod:LazarusOnDMGDMGUpCall(entity, damage, DamageFlags, Source, cdFrames)
+	if entity:ToPlayer() ~= nil then
+		if (entity:ToPlayer():GetName() == "Tormented Lazarus") then
+			player = entity:ToPlayer()
+			player.Damage = player.Damage + damage*(0.67)
+			LazarusDamageDownCache.Cache = LazarusDamageDownCache.Cache + 0.67
+		end
+	end
+end
+
+-- The damage given is a rounding of 2/3, not a meme reference
+
+Mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Mod.LazarusOnDMGDMGUpCall)

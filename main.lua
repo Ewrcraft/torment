@@ -1,4 +1,7 @@
 Torment = RegisterMod("Torment", 1)
+--LazarusDamageDownCache = 0
+
+print("I ran")
 
 local Mod = Torment
 

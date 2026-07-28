@@ -1,5 +1,4 @@
 local Mod = Torment
-
  -- Change every instance of the word "Template" in this file with your character's name, without spaces
 
 local characterCostume = Isaac.GetCostumeIdByPath("gfx/characters/costume_template.anm2")
