@@ -1,7 +1,13 @@
 Torment = RegisterMod("Torment", 1)
---LazarusDamageDownCache = 0
+LazarusDamageDownCache = {}
+LazarusDamageDownCache.Cache = 0
 
-print("I ran")
+-- If you came here to look how code works DON'T
+-- NUH UH
+-- Bad idea. The code is messy
+-- you should go to #isaac-mod-dev on isaac dc, or isaac official docs and isaac blueprints as well
+
+print("I ran or Iran")
 
 local Mod = Torment
 

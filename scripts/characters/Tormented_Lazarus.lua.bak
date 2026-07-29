@@ -83,7 +83,7 @@ local function OnRunStartLaz(_,bool)
 	player:AddCacheFlags(CacheFlag.CACHE_DAMAGE, true)
 end
 
-Mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, OnRunStartLaz)
+Mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, OnRunStartLaz)
 
 function Mod:TormentedLazarusInit(player)
 	--LazarusDamageDownCache = EntitySaveStateManager.GetEntityData(Mod, player)
@@ -101,11 +101,15 @@ end
 Mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, Mod.LazarusConstantDamageDrain)
 
 function Mod:LazarusOnDMGDMGUpCall(entity, damage, DamageFlags, Source, cdFrames)
-	if entity:ToPlayer() ~= nil
+	if entity:ToPlayer() ~= nil then
 		if (entity:ToPlayer():GetName() == "Tormented Lazarus") then
 			player = entity:ToPlayer()
 			player.Damage = player.Damage + damage*(0.67)
 			LazarusDamageDownCache.Cache = LazarusDamageDownCache.Cache + 0.67
+			if LazarusDamageDownCache.WasJustRevived then
+				LazarusDamageDownCache.WasJustRevived = false
+			end
+			print(cdFrames)
 		end
 	end
 end
@@ -113,3 +117,44 @@ end
 -- The damage given is a rounding of 2/3, not a meme reference
 
 Mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Mod.LazarusOnDMGDMGUpCall)
+
+function Mod:TormentedLazarusReviveManagement(player)
+	if player:GetEffects():HasNullEffect(Isaac.GetNullItemIdByName("LazarusReviveThingie")) then
+		player:GetEffects():RemoveNullEffect(Isaac.GetNullItemIdByName("LazarusReviveThingie"), 1)
+		player:Revive()
+		LazarusDamageDownCache.WasJustRevived = true
+	end
+end
+
+Mod:AddCallback(ModCallbacks.MC_PRE_TRIGGER_PLAYER_DEATH, Mod.TormentedLazarusReviveManagement)
+
+function Mod:TormentedLazarusFullHPOnRevive(player)
+	player:AddHearts(player:GetMaxHearts()-1)
+	player:AddSoulHearts(1)
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_PLAYER_REVIVE, Mod.TormentedLazarusFullHPOnRevive)
+
+function Mod:TormentedLazarusReviveAdding()
+	player = Isaac.GetPlayer()
+	if player:GetName() == "Tormented Lazarus" then
+		numRevives = player:GetEffects():GetNullEffectNum(Isaac.GetNullItemIdByName("LazarusReviveThingie"))
+		if numRevives == 3 then
+		end
+		if numRevives == 2 then
+			player:GetEffects():AddNullEffect(Isaac.GetNullItemIdByName("LazarusReviveThingie"))
+		end
+		if numRevives == 1 then
+			player:GetEffects():AddNullEffect(Isaac.GetNullItemIdByName("LazarusReviveThingie"))
+			player:GetEffects():AddNullEffect(Isaac.GetNullItemIdByName("LazarusReviveThingie"))
+		end
+		if numRevives == 0 then
+			player:GetEffects():AddNullEffect(Isaac.GetNullItemIdByName("LazarusReviveThingie"))
+			player:GetEffects():AddNullEffect(Isaac.GetNullItemIdByName("LazarusReviveThingie"))
+			player:GetEffects():AddNullEffect(Isaac.GetNullItemIdByName("LazarusReviveThingie"))
+		end
+	end
+	-- I am waaaay to tired to be fancy, no one's looking at the code anyways. Timestamp: 1:54 AM
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Mod.TormentedLazarusReviveAdding)
