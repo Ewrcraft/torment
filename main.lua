@@ -1,6 +1,7 @@
 Torment = RegisterMod("Torment", 1)
 LazarusDamageDownCache = {}
 LazarusDamageDownCache.Cache = 0
+LazarusDamageDownCache.Amount = 0
 
 -- If you came here to look how code works DON'T
 -- NUH UH

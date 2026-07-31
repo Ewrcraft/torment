@@ -17,47 +17,18 @@ end
 
 function SacraficeItem:SacraficeUse(item)
 	local function birthright_filtered_items(m_or_s, pedestal)
-		print("func start, mode:")
-		print(m_or_s)
-		print("")
 		if not m_or_s then
 			item_id_rollto = BabyItemPool:GetCollectible(Isaac.GetPoolIdByName("tormlilithbabypool"))
-			print("rolled into:")
-			print(item_id_rollto)
-			print("")
 			if Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality < 2 then
-				print("quality was:")
-				print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality)
-				print("")
-				print("self-calling!")
-				print("")
 				birthright_filtered_items(m_or_s, pedestal)
 			else
-				print("quality was:")
-				print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality)
-				print("")
-				print("morphing!")
-				print("")
 				pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
 			end
 		else
 			item_id_rollto = BabyItemPool:GetCollectible(math.random(BabyItemPool:GetLastPool()))
-			print("rolled into:")
-			print(item_id_rollto)
-			print("")
 			if Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality < 2 then
-				print("quality was:")
-				print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality)
-				print("")
-				print("self-calling!")
-				print("")
 				birthright_filtered_items(m_or_s, pedestal)
 			else
-				print("quality was:")
-				print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality)
-				print("")
-				print("spawning!")
-				print("")
 				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, familiar_pos, Vector.Zero, player_foritems)
 			end
 		end
@@ -97,10 +68,10 @@ function SacraficeItem:SacraficeUse(item)
 				local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR)
 				familiar = familiars[1]
 				familiar_pos = familiar.Position
-				if has_birthright[1] ~= nil then
-					birthright_filtered_items(true, nil)
-				else
+				if has_birthright[1] == nil and player:GetName() == "Tormented Lilith" then
 					Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(-1), familiar_pos, Vector.Zero, player_foritems)
+				else
+					birthright_filtered_items(true, nil)
 				end
 				player_foritems:RemoveCollectible(isaac_has[1]:GetItemID())
 				player_foritems:AddBrokenHearts(1)

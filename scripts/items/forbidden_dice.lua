@@ -15,15 +15,33 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 		if not m_or_s then
 			item_id_rollto = BabyItemPool:GetCollectible(BabyItemPool:GetPoolForRoom(Game():GetRoom():GetType(), math.random(100)))
 			if item_id_rollto ~= 0 then
-				if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) and not (has_birthright_bool) then
-					birthright_filtered_items(m_or_s, pedestal)
+				local gamble = (math.random()*100) < (50 - (player_luck*5));
+				if Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4 and (gamble) then
+					if not (has_birthright_bool) then
+						birthright_filtered_items(m_or_s, pedestal)
+					else
+						if player:GetName() == "Tormented Lost" then 
+						pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
+						else
+							birthright_filtered_items(m_or_s, pedestal)
+						end
+					end
 				else
 					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
 				end
 			else
+				local gamble = (math.random()*100) < (50 - (player_luck*5));
 				item_id_rollto = BabyItemPool:GetCollectible(math.random(1))
-				if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) and ((math.random()*100) < (50 - (player_luck*5))) and not (has_birthright_bool) then
-					birthright_filtered_items(m_or_s, pedestal)
+				if Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4 and (gamble) then
+					if not (has_birthright_bool) then
+						birthright_filtered_items(m_or_s, pedestal)
+					else
+						if player:GetName() == "Tormented Lost" then 
+						pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
+						else
+							birthright_filtered_items(m_or_s, pedestal)
+						end
+					end
 				else
 					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
 				end
@@ -54,23 +72,39 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 			break -- Exit loop after finding and removing the item
 		end
 	end
-	if true then
-		local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
-		for i = #pedestals, 1, -1 do
-			if (pedestals[i].SubType == 0) or (pedestals[i].SubType == 668) then
-				table.remove(pedestals, i)
-			end
-		end
-		for i = #pedestals, 1, -1 do
-			if (math.random()*100) < (50 - (player_luck*5)) and not (pedestals[i]:ToPickup():IsShopItem()) and not (pedestals[i]:ToPickup():IsBlind()) then
-				pedestals[i]:Remove()
-				tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
-			else
-				birthright_filtered_items(false, pedestals[i], has_birthright_b)
-				tempEffects:AddNullEffect(ForbiddenLuckDown, false, 1)
-			end
+
+	local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
+	for i = #pedestals, 1, -1 do
+		if (pedestals[i].SubType == 0) or (pedestals[i].SubType == 668) then
+			table.remove(pedestals, i)
 		end
 	end
+	for i = #pedestals, 1, -1 do
+		print("code")
+		local gamble = (math.random()*100) < (50 - (player_luck*5));
+		if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) then 
+			print("Quality 4 tried spawning")
+			print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Name)
+			print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality)
+			print(gamble)
+		end
+		if (gamble) and not (pedestals[i]:ToPickup():IsShopItem()) and not (pedestals[i]:ToPickup():IsBlind()) then
+			pedestals[i]:Remove()
+			tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
+		else
+			if not (has_birthright_bool) then
+				birthright_filtered_items(false, pedestals[i], has_birthright_b)
+			else
+				if player:GetName() == "Tormented Lost" then 
+				pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
+				else
+					birthright_filtered_items(false, pedestals[i], has_birthright_b)
+				end
+			end
+			tempEffects:AddNullEffect(ForbiddenLuckDown, false, 1)
+		end
+	end
+
 end
 
 Mod:AddCallback(ModCallbacks.MC_USE_ITEM, ForbiddenDiceItem.ForbiddenDiceUse, ForbiddenDiceItem.ID)
