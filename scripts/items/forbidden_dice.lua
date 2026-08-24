@@ -82,12 +82,6 @@ function ForbiddenDiceItem:ForbiddenDiceUse(item)
 	for i = #pedestals, 1, -1 do
 		print("code")
 		local gamble = (math.random()*100) < (50 - (player_luck*5));
-		if (Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4) then 
-			print("Quality 4 tried spawning")
-			print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Name)
-			print(Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality)
-			print(gamble)
-		end
 		if (gamble) and not (pedestals[i]:ToPickup():IsShopItem()) and not (pedestals[i]:ToPickup():IsBlind()) then
 			pedestals[i]:Remove()
 			tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
