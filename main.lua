@@ -8,8 +8,6 @@ LazarusDamageDownCache.Amount = 0
 -- Bad idea. The code is messy
 -- you should go to #isaac-mod-dev on isaac dc, or isaac official docs and isaac blueprints as well
 
-print("I ran or Iran")
-
 local Mod = Torment
 
 include("scripts/items/sacrifice")
