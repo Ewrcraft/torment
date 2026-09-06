@@ -1,0 +1,171 @@
+local Mod = Torment
+ -- Change every instance of the word "Template" in this file with your character's name, without spaces
+
+local characterCostume = Isaac.GetCostumeIdByPath("gfx/characters/costume_template.anm2")
+
+local Template = { -- shown below are default values, as shown on Isaac, for you to change around
+    SPEED = 1.00,
+    FIREDELAY = 10, -- your tears stat is "30/(FIREDELAY+1)"
+    DAMAGE = 3.50, -- is only the damage stat, not damage multiplier
+    RANGE = 260, -- your range stat is "40*RANGE"
+    SHOTSPEED = 1.00,
+    LUCK = 0,
+    TEARHEIGHT = 0.00, -- these are non default values, instead being additive to the default value because I do not know what the default is
+    TEARFALLINGSPEED = 0.00, -- these are non default values, instead being additive to the default value because I do not know what the default is
+    TEARFLAG = TearFlags.TEAR_SPECTRAL, -- Determines some behaviors of your tears, https://wofsauge.github.io/IsaacDocs/rep/enums/TearFlags.html
+    TEARCOLOR = Color(1.0, 1.0, 1.0, 1.0, 0, 0, 0), -- r1.0 g1.0 b1.0 a1.0 0r 0g 0b (the last three are offsets)
+    FLYING = true
+}
+
+function Mod:onCache(player, cacheFlag)
+    if player:GetName() == "Tormented Bethany" then
+        player:AddNullCostume(characterCostume)
+        if cacheFlag == CacheFlag.CACHE_SPEED then
+            player.MoveSpeed = player.MoveSpeed - 1 + Template.SPEED
+        end
+        if cacheFlag == CacheFlag.CACHE_FIREDELAY then
+            player.MaxFireDelay = player.MaxFireDelay - 10 + Template.FIREDELAY
+        end
+        if cacheFlag == CacheFlag.CACHE_DAMAGE then
+            player.Damage = player.Damage - 3.5 + Template.DAMAGE
+        end
+        if cacheFlag == CacheFlag.CACHE_RANGE then
+            player.TearRange = player.TearRange - 260 + Template.RANGE
+            player.TearHeight = player.TearHeight + Template.TEARHEIGHT
+            player.TearFallingSpeed = player.TearFallingSpeed + Template.TEARFALLINGSPEED
+        end
+        if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
+            player.ShotSpeed = player.ShotSpeed - 1 + Template.SHOTSPEED
+        end
+        if cacheFlag == CacheFlag.CACHE_LUCK then
+            player.Luck = player.Luck + Template.LUCK
+        end
+        if cacheFlag == CacheFlag.CACHE_TEARFLAG then
+            player.TearFlags = player.TearFlags | Template.TEARFLAG -- The OR here makes sure that if you have an item that changes tear flags, the values you set takes priority
+        end
+        if cacheFlag == CacheFlag.CACHE_TEARCOLOR then
+            player.TearColor = Template.TEARCOLOR
+        end
+        if cacheFlag == CacheFlag.CACHE_FLYING and Template.FLYING then
+            player.CanFly = true
+        end
+    end
+end
+
+Mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Mod.onCache)
+
+local char = Isaac.GetPlayerTypeByName("Tormented Bethany")
+local item_id = Isaac.GetItemIdByName("Book of All")
+local game = Game()
+
+function Mod:TormentedBethanyInit(player)
+	if player:GetPlayerType() ~= char then
+		return
+	end
+	BethanyCache = EntitySaveStateManager.GetEntityData(Mod, player)
+	BethanyCache.RedHeartCharges = 0
+	BethanyCache.SoulHeartCharges = 0
+	BethanyCache.EternalHeartCharges = 0
+	BethanyCache.BlackHeartCharges = 0
+	BethanyCache.GoldHeartCharges = 0
+	BethanyCache.RottenHeartCharges = 0
+	BethanyCache.BoneHeartCharges = 0
+	selectMenuSprite = Sprite()
+	selectMenuSprite:Load("gfx/gui/bethany/testing.anm2", true)
+	selectMenuSprite:Play("bethany")
+	--selectMenuSprite:ReplaceSpritesheet(0, "gfx/gui/bethany/OmegaBethanySelector.png")
+	selectMenuSprite:LoadGraphics()
+	print("Responded")
+	
+	player:SetPocketActiveItem(item_id, ActiveSlot.SLOT_POCKET, true)
+	player:SetActiveCharge(0, ActiveSlot.SLOT_POCKET)
+	
+	local pool = game:GetItemPool()
+	pool:RemoveCollectible(item_id)
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, Mod.TormentedBethanyInit)
+
+function Mod:TormentedBethanyHeartsCollection(Pickup)
+	entity = Isaac.GetPlayer()
+	if entity:ToPlayer() ~= nil then
+		if (entity:ToPlayer():GetName() == "Tormented Bethany") then
+			if Pickup.SubType == 1 then
+				print("Red Heart Charge Update, Currently have:")
+				print(BethanyCache.RedHeartCharges)
+				BethanyCache.RedHeartCharges = BethanyCache.RedHeartCharges + 2
+				Pickup:Remove()
+				print("Now have:")
+				print(BethanyCache.RedHeartCharges)
+			end
+			if Pickup.SubType == 2 then
+				BethanyCache.RedHeartCharges = BethanyCache.RedHeartCharges + 1
+				Pickup:Remove()
+			end
+			if Pickup.SubType == 3 then
+				BethanyCache.SoulHeartCharges = BethanyCache.SoulHeartCharges + 2
+				Pickup:Remove()
+			end
+			if Pickup.SubType == 4 then
+				BethanyCache.EternalHeartCharges = BethanyCache.EternalHeartCharges + 2
+				Pickup:Remove()
+			end
+			if Pickup.SubType == 5 then
+				BethanyCache.RedHeartCharges = BethanyCache.RedHeartCharges + 4
+				Pickup:Remove()
+			end
+			if Pickup.SubType == 6 then
+				BethanyCache.BlackHeartCharges = BethanyCache.BlackHeartCharges + 2
+				Pickup:Remove()
+			end
+			if Pickup.SubType == 7 then
+				BethanyCache.GoldHeartCharges = BethanyCache.GoldHeartCharges + 2
+				Pickup:Remove()
+			end
+			if Pickup.SubType == 8 then
+				BethanyCache.SoulHeartCharges = BethanyCache.SoulHeartCharges + 1
+				Pickup:Remove()
+			end
+			if Pickup.SubType == 9 then
+				BethanyCache.RedHeartCharges = BethanyCache.RedHeartCharges + 2
+				Pickup:Remove()
+			end
+			if Pickup.SubType == 10 then
+				BethanyCache.RottenHeartCharges = BethanyCache.RottenHeartCharges + 2
+				Pickup:Remove()
+			end
+			if Pickup.SubType == 11 then
+				BethanyCache.BoneHeartCharges = BethanyCache.BoneHeartCharges + 2
+				Pickup:Remove()
+			end
+			
+		end
+	end
+end
+
+Mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Mod.TormentedBethanyHeartsCollection)
+
+-- Am i hired google? Timestamp: 1:12 AM
+
+function Mod:BethanyInputRegister()
+	entity = Isaac.GetPlayer()
+	if entity:ToPlayer() ~= nil then
+		if (entity:ToPlayer():GetName() == "Tormented Bethany") then
+			if Input.IsActionPressed(ButtonAction.ACTION_DROP, 0) then
+				--print("holding drop button")
+				selectMenuSprite:Render(Vector(75, 75), Vector(0, 0), Vector(0, 0))
+				--selectMenuSprite:Update()
+			end
+		end
+	end
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_RENDER, Mod.BethanyInputRegister)
+
+function Mod:RenderTest()
+	local test = Sprite()
+	test:Load("gfx/gui/bethany/testing.anm2", true)
+	test:Render(Vector(150, 150), Vector(0, 0), Vector(0, 0))
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_RENDER, Mod.RenderTest)

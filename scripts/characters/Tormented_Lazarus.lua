@@ -104,8 +104,8 @@ function Mod:LazarusOnDMGDMGUpCall(entity, damage, DamageFlags, Source, cdFrames
 	if entity:ToPlayer() ~= nil then
 		if (entity:ToPlayer():GetName() == "Tormented Lazarus") then
 			player = entity:ToPlayer()
-			player.Damage = player.Damage + damage*(0.67)
-			LazarusDamageDownCache.Cache = LazarusDamageDownCache.Cache + 0.67
+			player.Damage = player.Damage + damage*(0.1)
+			LazarusDamageDownCache.Cache = LazarusDamageDownCache.Cache + 0.1
 			if LazarusDamageDownCache.WasJustRevived then
 				LazarusDamageDownCache.WasJustRevived = false
 			end

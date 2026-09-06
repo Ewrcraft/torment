@@ -130,7 +130,7 @@ Mod:AddCallback(ModCallbacks.MC_PRE_TRIGGER_PLAYER_DEATH, Mod.TormentedLazarusRe
 
 function Mod:TormentedLazarusFullHPOnRevive(player)
 	player:AddHearts(player:GetMaxHearts()-1)
-	player:AddSoulHearts(1)
+	--player:AddSoulHearts(1) does not infact cure not having i-frames
 end
 
 Mod:AddCallback(ModCallbacks.MC_POST_PLAYER_REVIVE, Mod.TormentedLazarusFullHPOnRevive)

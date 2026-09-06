@@ -5,7 +5,7 @@
     <player 
         name="Tormented Lilith" 
         skin="character_template.png" 
-        nameimage="playername_template.png" 
+        nameimage="lilith_name_placeholder.png" 
         portrait="playerportrait_template.png"
         birthright="Sacrafice them, items... or friends" 
         hp="2" 
@@ -38,5 +38,17 @@
         armor="0" 
         skinColor="-1"
         canShoot="True" 
+	/>
+	<player
+		name="Tormented Bethany" 
+        skin="character_template_3.png" 
+        nameimage="playername_template_3.png" 
+        portrait="playerportrait_template_3.png"
+        birthright="Damage up"
+        hp="0" 
+        armor="0" 
+        skinColor="-1"
+        canShoot="True" 
+		HealthType="2"
 	/>
 </players>

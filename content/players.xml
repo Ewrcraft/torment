@@ -39,4 +39,16 @@
         skinColor="-1"
         canShoot="True" 
 	/>
+	<player
+		name="Tormented Bethany" 
+        skin="character_template_4.png" 
+        nameimage="playername_template_4.png" 
+        portrait="playerportrait_template_4.png"
+        birthright="Omega Bethany"
+        hp="0" 
+        armor="0" 
+        skinColor="-1"
+        canShoot="True" 
+		HealthType="2"
+	/>
 </players>
