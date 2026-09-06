@@ -93,8 +93,8 @@ Mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, Mod.TormentedLazarusInit)
 
 function Mod:LazarusConstantDamageDrain(player)
 	if player:GetName() == "Tormented Lazarus" then
-		player.Damage = player.Damage - 0.0005
-		LazarusDamageDownCache.Cache = LazarusDamageDownCache.Cache - 0.0005
+		player.Damage = player.Damage - LazarusDamageDownCache.Amount
+		LazarusDamageDownCache.Cache = LazarusDamageDownCache.Cache - LazarusDamageDownCache.Amount
 	end
 end
 
@@ -130,7 +130,7 @@ Mod:AddCallback(ModCallbacks.MC_PRE_TRIGGER_PLAYER_DEATH, Mod.TormentedLazarusRe
 
 function Mod:TormentedLazarusFullHPOnRevive(player)
 	player:AddHearts(player:GetMaxHearts()-1)
-	--player:AddSoulHearts(1) does not infact cure not having i-frames
+	player:SetMinDamageCooldown(150)
 end
 
 Mod:AddCallback(ModCallbacks.MC_POST_PLAYER_REVIVE, Mod.TormentedLazarusFullHPOnRevive)
@@ -158,3 +158,34 @@ function Mod:TormentedLazarusReviveAdding()
 end
 
 Mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Mod.TormentedLazarusReviveAdding)
+
+local currentroom = nil
+local roomclear = false
+function Mod:eachframe()
+    if currentroom == nil then
+        currentroom = Game():GetRoom()
+        roomclear = currentroom:IsClear()
+        player = Isaac.GetPlayer(0)
+    end
+    if player:HasCollectible(619) and roomclear == false and currentroom:IsClear() then
+        LazarusDamageDownCache.Amount = 0
+    end
+    roomclear = currentroom:IsClear()
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_UPDATE, Mod.eachframe)
+
+function Mod:IhaveBirthed()
+	local player_foritems = Isaac.GetPlayer(0)
+	local history = player_foritems:GetHistory()
+	local has_birthright = history:SearchCollectibles(619)
+	local has_birthright_boolean = has_birthright[1] ~= nil
+	local room = Game():GetRoom()
+	LazarusDamageDownCache.Amount = 0.0008
+	if has_birthright_boolean and room:IsClear() then
+		LazarusDamageDownCache.Amount = 0.0004
+	end
+	currentroom = nil
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Mod.IhaveBirthed)

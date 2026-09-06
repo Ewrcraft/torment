@@ -95,7 +95,7 @@ Mod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, Mod.TormentedLostInit)
 function Mod:OnBirthrightPickup(Collectible_type, charge, FirstTime, Slot, VarData, player)
 	local tempEffects = player:GetEffects()
 	local ForbiddenLuckUp = Isaac.GetNullItemIdByName("ForbiddenLuckUp")
-	if Collectible_type == 619 then
+	if Collectible_type == 619 and player:GetName() == "Tormented Lost" then
 		tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
 		tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
 		tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
