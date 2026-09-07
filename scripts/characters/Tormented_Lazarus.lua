@@ -28,7 +28,7 @@ function Mod:onCache(player, cacheFlag)
             player.MaxFireDelay = player.MaxFireDelay - 10 + Template.FIREDELAY
         end
         if cacheFlag == CacheFlag.CACHE_DAMAGE then
-			print("Evaluated DMG")
+			--print("Evaluated DMG")
             player.Damage = player.Damage - 3.5 + Template.DAMAGE
 			if LazarusDamageDownCache.NeedToReeval == true then
 				player.Damage = player.Damage - 3.5 + Template.DAMAGE + LazarusDamageDownCache.Cache
@@ -68,17 +68,17 @@ Mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, onStart)
 
 local function OnRunStartLaz(_,bool)
 	player = Isaac.GetPlayer(0)
-	print("OnRunStart correctly called, IsContinued: ")
-	print(bool)
+	--print("OnRunStart correctly called, IsContinued: ")
+	--print(bool)
 	if not bool then
 		LazarusDamageDownCache.NeedToReeval = true
 		LazarusDamageDownCache.Cache = 0
-		print("Ran the not continued branch")
+		--print("Ran the not continued branch")
 	end
 	if bool then
 		LazarusDamageDownCache.NeedToReeval = true
 		player.Damage = player.Damage + LazarusDamageDownCache.Cache
-		print("Ran the continued branch")
+		--print("Ran the continued branch")
 	end
 	player:AddCacheFlags(CacheFlag.CACHE_DAMAGE, true)
 end
@@ -109,12 +109,10 @@ function Mod:LazarusOnDMGDMGUpCall(entity, damage, DamageFlags, Source, cdFrames
 			if LazarusDamageDownCache.WasJustRevived then
 				LazarusDamageDownCache.WasJustRevived = false
 			end
-			print(cdFrames)
+			--print(cdFrames)
 		end
 	end
 end
-
--- The damage given is a rounding of 2/3, not a meme reference
 
 Mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Mod.LazarusOnDMGDMGUpCall)
 

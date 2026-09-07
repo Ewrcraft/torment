@@ -2,6 +2,23 @@
 	<active id="1" name="Sacrifice" gfx="Sacrafice_item.png" description="First, items, then your friends... what's next?" quality="4" maxcharges="4" chargetype="normal" hidden="false" />
 	<active id="2" name="Forbidden dice" gfx="Forbidden_dice_item.png" description="Breaking the oath comes with consequences" quality="3" maxcharges="4" chargetype="normal" hidden="false" />
 	<active id="3" name="Book of All" gfx="Book_of_All_item.png" description="It's like your SOUL shines..." quality="4" maxcharges="1" chargetype="special" hidden="false" />
+	<active id="4" name="Return" gfx="Return.png" description="Hoping to bring them back..." quality="3" maxcharges="3" chargetype="normal" hidden="false" />
+	<passive id="5" name="Void Matter of Treasure" gfx="Void Matter of Treasure.png" description="A swallowed piece of your misfortune" hidden="false" damage="1" />
+	<passive id="6" name="Void Matter of Shop" gfx="Void Matter of Shop.png" description="A swallowed piece of your greed" hidden="false" speed="0.2" />
+	<passive id="7" name="Void Matter of Secret" gfx="Void Matter of Secret.png" description="A swallowed piece of your unluck" hidden="false" damage="0.5" speed="0.1" range="0.75" flattears="0.5" />
+	<passive id="8" name="Void Matter of Boss" gfx="Void Matter of Boss.png" description="A swallowed piece of your lazyness" hidden="false" tears="0.5" />
+	<passive id="9" name="Void Matter of Curse" gfx="Void Matter of Curse.png" description="A swallowed piece of your curse" hidden="false" />
+	<passive id="10" name="Void Matter of Angel" gfx="Void Matter of Angel.png" description="A swallowed piece of your dishonor" hidden="false" range="2" shotspeed="0.05"/>
+	<passive id="11" name="Void Matter of Devil" gfx="Void Matter of Devil.png" description="A swallowed piece of your devotion" hidden="false" shotspeed="0.25" range="0.5"/>
+	<passive id="12" name="Void Matter of Planetarium" gfx="Void Matter of Planetarium.png" description="A swallowed piece of your unacceptance" hidden="false" luck="2" />
+	<passive id="13" name="Abyss Matter of Treasure" gfx="Abyss Matter of Treasure.png" description="A blighted piece of fortune" hidden="false" />
+	<passive id="14" name="Abyss Matter of Shop" gfx="Abyss Matter of Shop.png" description="A blighted piece of charity" hidden="false" />
+	<passive id="15" name="Abyss Matter of Secret" gfx="Abyss Matter of Secret.png" description="A blighted piece of luck" hidden="false" />
+	<passive id="16" name="Abyss Matter of Boss" gfx="Abyss Matter of Boss.png" description="A blighted piece of determination" hidden="false" />
+	<passive id="17" name="Abyss Matter of Curse" gfx="Abyss Matter of Curse.png" description="A blighted piece of a blessing" hidden="false" />
+	<passive id="18" name="Abyss Matter of Angel" gfx="Matter of Angel.png" description="A blighted piece of honor" hidden="false" />
+	<passive id="19" name="Abyss Matter of Devil" gfx="Abyss Matter of Devil.png" description="A blighted piece of banishment" hidden="false" />
+	<passive id="20" name="Abyss Matter of Planetarium" gfx="Abyss Matter of Planetarium.png" description="A blighted piece of knowledge" hidden="false" />
 	<null name="ForbiddenLuckUp" quality="0" hidden="true" persistent="true" luck="1"/>
 	<null name="ForbiddenLuckDown" quality="0" hidden="true" persistent="true" luck="-0.5"/>
 	<null name="LazarusDamageDown" quality="0" hidden="true" persistent="true" damage="-0.0005"/>

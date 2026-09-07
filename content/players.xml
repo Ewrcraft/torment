@@ -51,4 +51,15 @@
         canShoot="True" 
 		HealthType="2"
 	/>
+	<player
+		name="Tormented Apollyon" 
+        skin="character_template_5.png" 
+        nameimage="playername_template_5.png" 
+        portrait="playerportrait_template_5.png"
+        birthright="Voidlings and hexes"
+        hp="4" 
+        armor="0" 
+        skinColor="-1"
+        canShoot="True" 
+	/>
 </players>

@@ -1,0 +1,104 @@
+local Mod = Torment
+local ForbiddenDiceItem = {}
+ForbiddenDiceItem.ID = Isaac.GetItemIdByName("Forbidden dice")
+local ForbiddenLuckUp = Isaac.GetNullItemIdByName("ForbiddenLuckUp")
+local ForbiddenLuckDown = Isaac.GetNullItemIdByName("ForbiddenLuckDown")
+local BabyItemPool = Game():GetItemPool()
+
+
+function ForbiddenDiceItem:ForbiddenDiceUse(item)
+	local player_foritems = Isaac.GetPlayer(0)
+	local tempEffects = player:GetEffects()
+	local player_luck = player_foritems.Luck
+	local function birthright_filtered_items(m_or_s, pedestal, has_birthright_bool)
+		local BabyItemPool = Game():GetItemPool()
+		if not m_or_s then
+			item_id_rollto = BabyItemPool:GetCollectible(BabyItemPool:GetPoolForRoom(Game():GetRoom():GetType(), math.random(100)))
+			if item_id_rollto ~= 0 then
+				local gamble = (math.random()*100) < (50 - (player_luck*5));
+				if Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4 and (gamble) then
+					if not (has_birthright_bool) then
+						birthright_filtered_items(m_or_s, pedestal)
+					else
+						if player:GetName() == "Tormented Lost" then 
+						pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
+						else
+							birthright_filtered_items(m_or_s, pedestal)
+						end
+					end
+				else
+					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
+				end
+			else
+				local gamble = (math.random()*100) < (50 - (player_luck*5));
+				item_id_rollto = BabyItemPool:GetCollectible(math.random(1))
+				if Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality == 4 and (gamble) then
+					if not (has_birthright_bool) then
+						birthright_filtered_items(m_or_s, pedestal)
+					else
+						if player:GetName() == "Tormented Lost" then 
+						pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
+						else
+							birthright_filtered_items(m_or_s, pedestal)
+						end
+					end
+				else
+					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
+				end
+			end
+		end
+	end
+	local player_foritems = Isaac.GetPlayer(0)
+	local history = player_foritems:GetHistory()
+	local all_baby_items = {}
+	local baby_item_pool_ids = BabyItemPool:GetCollectiblesFromPool(Isaac.GetPoolIdByName("tormlilithbabypool"))
+	local firstcol = {}
+	for i = 1, #baby_item_pool_ids do
+		table.insert(all_baby_items, baby_item_pool_ids[i].itemID)
+	end
+	for i = 1, 732 do
+		for k, value in ipairs(firstcol) do
+			if i == value then
+				table.insert(all_baby_items, i)
+			end
+		end
+	end
+	local isaac_has = history:SearchCollectibles(all_baby_items)
+	local has_birthright = history:SearchCollectibles(619)
+	local has_birthright_b = has_birthright[1] ~= nil
+	for i, value in ipairs(isaac_has) do
+		if value:GetItemID() == 360 then
+			table.remove(isaac_has, i)
+			break -- Exit loop after finding and removing the item
+		end
+	end
+
+	local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
+	for i = #pedestals, 1, -1 do
+		if (pedestals[i].SubType == 0) or (pedestals[i].SubType == 668) then
+			table.remove(pedestals, i)
+		end
+	end
+	for i = #pedestals, 1, -1 do
+		print("code")
+		local gamble = (math.random()*100) < (50 - (player_luck*5));
+		if (gamble) and not (pedestals[i]:ToPickup():IsShopItem()) and not (pedestals[i]:ToPickup():IsBlind()) then
+			pedestals[i]:Remove()
+			tempEffects:AddNullEffect(ForbiddenLuckUp, false, 1)
+		else
+			if not (has_birthright_bool) then
+				birthright_filtered_items(false, pedestals[i], has_birthright_b)
+			else
+				if player:GetName() == "Tormented Lost" then 
+				pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
+				else
+					birthright_filtered_items(false, pedestals[i], has_birthright_b)
+				end
+			end
+			tempEffects:AddNullEffect(ForbiddenLuckDown, false, 1)
+		end
+	end
+
+end
+
+Mod:AddCallback(ModCallbacks.MC_USE_ITEM, ForbiddenDiceItem.ForbiddenDiceUse, ForbiddenDiceItem.ID)

@@ -59,7 +59,7 @@ function SacraficeItem:SacraficeUse(item)
 	if true then
 		local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 		for i = #pedestals, 1, -1 do
-			if (pedestals[i].SubType == 0) or (pedestals[i].SubType == 668) then
+			if (pedestals[i].SubType == 0) and (pedestals[i].SubType == 668) then
 				table.remove(pedestals, i)
 			end
 		end
