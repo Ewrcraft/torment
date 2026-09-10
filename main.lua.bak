@@ -1,4 +1,5 @@
 Torment = RegisterMod("Torment", 1)
+ApollyonData = {DoConvertOnBossClear = 1}
 LazarusDamageDownCache = {}
 LazarusDamageDownCache.Cache = 0
 LazarusDamageDownCache.Amount = 0
@@ -16,5 +17,6 @@ include("scripts/characters/Tormented_Lilith")
 include("scripts/characters/Tormented_Lost")
 include("scripts/characters/Tormented_Lazarus")
 include("scripts/characters/Tormented_Bethany")
+include("scripts/characters/Tormented_Apollyon")
 include("scripts/helpers/CacheCallBackManager")
 include("scripts/helpers/CacheCallBackManager")

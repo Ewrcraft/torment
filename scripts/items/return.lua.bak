@@ -19,8 +19,7 @@ function ReturnItem:GetMatterDowngradeFromIID(ct)
 	local function removeLocusts()
 		local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR)
 		if #familiars == 1 then familiars[1]:Remove()
-		else familiars[1]:Remove()
-		familiars[2]:Remove() end
+		else familiars[1]:Remove(); familiars[2]:Remove() end
 	end
 	if ct == Isaac.GetItemIdByName("Abyss Matter of Treasure") then
 		removeLocusts()
@@ -28,6 +27,7 @@ function ReturnItem:GetMatterDowngradeFromIID(ct)
 	if ct == Isaac.GetItemIdByName("Abyss Matter of Shop") then removeLocusts() end
 	if ct == Isaac.GetItemIdByName("Abyss Matter of Secret") then removeLocusts() end
 	if ct == Isaac.GetItemIdByName("Abyss Matter of Boss") then removeLocusts() end
+	if ct == Isaac.GetItemIdByName("Abyss Matter of Curse") then removeLocusts() end
 	if ct == Isaac.GetItemIdByName("Abyss Matter of Curse") then removeLocusts() end
 	if ct == Isaac.GetItemIdByName("Abyss Matter of Angel") then removeLocusts() end
 	if ct == Isaac.GetItemIdByName("Abyss Matter of Devil") then removeLocusts() end

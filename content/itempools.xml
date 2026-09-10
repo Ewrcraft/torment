@@ -87,4 +87,22 @@
 		<Item id="679" Weight="1" DecreaseBy="0" RemoveOn="0.1"/>
 		<Item id="698" Weight="1" DecreaseBy="0" RemoveOn="0.1"/>
 	</Pool>
+	<Pool Name="TormentedApollyonMatterPool">
+		<Item name="Void Matter of Treasure" Weight="1" DecreaseBy="0" RemoveOn="0.1"/>
+		<Item Name="Void Matter of Shop" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Void Matter of Secret" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Void Matter of Boss" Weight="1" DecreaseBy="0" RemoveOn="0.1"  />
+		<Item Name="Void Matter of Curse" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Void Matter of Angel" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Void Matter of Devil" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Void Matter of Planetarium" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Abyss Matter of Treasure" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Abyss Matter of Shop" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Abyss Matter of Secret" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Abyss Matter of Boss" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Abyss Matter of Curse" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Abyss Matter of Angel" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Abyss Matter of Devil" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+		<Item Name="Abyss Matter of Planetarium" Weight="1" DecreaseBy="0" RemoveOn="0.1" />
+	</Pool>
 </ItemPools>

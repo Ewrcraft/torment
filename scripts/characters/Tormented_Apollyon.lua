@@ -2,7 +2,7 @@ local Mod = Torment
 
  -- Change every instance of the word "Template" in this file with your character's name, without spaces
 
-local characterCostume = Isaac.GetCostumeIdByPath("gfx/characters/costume_template_5.anm2")
+local characterCostume = Isaac.GetCostumeIdByPath("gfx/characters/costume_template.anm2")
 
 local function isEmpty(s)
 	return s == nil or s == ''
@@ -123,7 +123,7 @@ end
 
 function Mod:TormentedApollyonOnNewRoomEnterChangeToMatter(player)
 	if Game():GetRoom():IsFirstVisit() and Isaac.GetPlayer(0):GetPlayerType() == char then
-		print("ran")
+		if Game():GetRoom():GetType() == RoomType.ROOM_BOSS or Game():GetRoom():GetType() == RoomType.ROOM_MINIBOSS or Game():GetRoom():GetType() == RoomType.ROOM_CHALLENGE or Game():GetRoom():GetType() == RoomType.ROOM_BOSSRUSH then ApollyonData.DoConvertOnBossClear = ApollyonData.DoConvertOnBossClear + 1 end
 		local pedestals = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 		for i = #pedestals, 1, -1 do
 			if (pedestals[i].SubType == 0) and (pedestals[i].SubType == 668) then
@@ -174,10 +174,37 @@ end
 
 Mod:AddCallback(ModCallbacks.MC_POST_ADD_COLLECTIBLE, Mod.MatterLocustSpawn)
 
-function Mod:BossReplace(a, b, c)
-	Mod:
-	TormentedApollyonOnNewRoomEnterChangeToMatter(Isaac.GetPlayer(0))
-	if Isaac.GetPlayer(0):GetPlayerType() == char then return true end
+function Mod:BossReplaceWithMatter(pickup, Variant, st)
+	print("ran 1")
+	if (Game():GetRoom():IsClear() and (Game():GetRoom():GetType() == RoomType.ROOM_BOSS or Game():GetRoom():GetType() == RoomType.ROOM_MINIBOSS or Game():GetRoom():GetType() == RoomType.ROOM_BOSSRUSH or Game():GetRoom():GetType() == RoomType.ROOM_CHALLENGE)) then
+		print("ran 2")
+		print(pickup)
+		print()
+		if ApollyonData.DoConvertOnBossClear > 0 and pickup == EntityType.ENTITY_PICKUP and Variant == 100 and not (st == 668 or st == 328 or st == 327 or st == 238 or st == 239 or st == 551 or st == 627) then
+			print("ran 3")
+			ApollyonData.DoConvertOnBossClear = ApollyonData.DoConvertOnBossClear - 1
+			return {EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, Mod:GetMatterByRoomType(Game():GetRoom(), RandValue), 0}
+			--return {Type = EntityType.ENTITY_PICKUP, Variant = PickupVariant.PICKUP_COLLECTIBLE, Subtype = Mod:GetMatterByRoomType(Game():GetRoom(), RandValue), Seed = 0}
+		end
+	end
 end
 
-Mod:AddCallback(ModCallbacks.MC_GET_BOSS_THEMATIC_ITEM, Mod.BossReplace)
+Mod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, Mod.BossReplaceWithMatter)
+
+function Mod:ApollyonPostShopRestock()
+	Mod:TormentedApollyonOnNewRoomEnterChangeToMatter(Isaac.GetPlayer(0))
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_RESTOCK_SHOP, Mod.ApollyonPostShopRestock)
+
+function Mod:OnItemPickupGiveHeart(Collectible_type, charge, FirstTime, Slot, VarData, player)
+
+	if Collectible_type == Isaac.GetItemIdByName("Abyss Matter of Shop") or Collectible_type == Isaac.GetItemIdByName("Void Matter of Shop") then
+		player.AddMaxHearts(player, 2)
+		print("randsadadads")
+		player.AddHearts(player, 4)
+	end
+
+end
+
+Mod:AddCallback(ModCallbacks.MC_POST_ADD_COLLECTIBLE, Mod.OnItemPickupGiveHeart)
