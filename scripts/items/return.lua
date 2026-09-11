@@ -1,19 +1,8 @@
 local Mod = Torment
 local ReturnItem = {}
-SacraficeItem.ID = Isaac.GetItemIdByName("Return")
-local BabyItemPool = Game():GetItemPool()
+ReturnItem.ID = Isaac.GetItemIdByName("Return")
+local ItemPool = Game():GetItemPool()
 local player_foritems = Isaac.GetPlayer(0)
-
-OR, XOR, AND = 1, 3, 4
-
-function bitoper(a, b, oper)
-   local r, m, s = 0, 2^31
-   repeat
-      s,a,b = a+b+m, a%m, b%m
-      r,m = r + m*oper%(s-a-b), m/2
-   until m < 1
-   return r
-end
 
 function ReturnItem:GetMatterDowngradeFromIID(ct)
 	local function removeLocusts()
@@ -39,7 +28,7 @@ function ReturnItem:ReturnUse(item)
 	local player_foritems = Isaac.GetPlayer(0)
 	local history = player_foritems:GetHistory()
 	local all_baby_items = {}
-	local baby_item_pool_ids = BabyItemPool:GetCollectiblesFromPool(Isaac.GetPoolIdByName("TormentedApollyonMatterPool"))
+	local baby_item_pool_ids = ItemPool:GetCollectiblesFromPool(Isaac.GetPoolIdByName("TormentedApollyonMatterPool"))
 	for i = 1, #baby_item_pool_ids do
 		table.insert(all_baby_items, baby_item_pool_ids[i].itemID)
 	end
@@ -53,7 +42,7 @@ function ReturnItem:ReturnUse(item)
 	end
 	if #isaac_has > 0 then
 		player_foritems:RemoveCollectible(isaac_has[1]:GetItemID())
-		Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(-1), player_foritems.P, Vector.Zero, player_foritems)
+		Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, ItemPool:GetCollectible(-1), player_foritems.Position, Vector.Zero, player_foritems)
 	end
 end
 

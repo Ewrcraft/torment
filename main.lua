@@ -13,6 +13,7 @@ local Mod = Torment
 
 include("scripts/items/sacrifice")
 include("scripts/items/forbidden_dice")
+include("scripts/items/return")
 include("scripts/characters/Tormented_Lilith")
 include("scripts/characters/Tormented_Lost")
 include("scripts/characters/Tormented_Lazarus")

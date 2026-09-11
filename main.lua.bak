@@ -1,5 +1,5 @@
 Torment = RegisterMod("Torment", 1)
-ApollyonData = {DoConvertOnBossClear = 1}
+ApollyonData = {DoConvertOnBossClear = 0}
 LazarusDamageDownCache = {}
 LazarusDamageDownCache.Cache = 0
 LazarusDamageDownCache.Amount = 0

@@ -1,31 +1,20 @@
 local Mod = Torment
 local SacraficeItem = {}
 SacraficeItem.ID = Isaac.GetItemIdByName("Sacrifice")
-local BabyItemPool = Game():GetItemPool()
+local ItemPool = Game():GetItemPool()
 local player_foritems = Isaac.GetPlayer(0)
-
-OR, XOR, AND = 1, 3, 4
-
-function bitoper(a, b, oper)
-   local r, m, s = 0, 2^31
-   repeat
-      s,a,b = a+b+m, a%m, b%m
-      r,m = r + m*oper%(s-a-b), m/2
-   until m < 1
-   return r
-end
 
 function SacraficeItem:SacraficeUse(item)
 	local function birthright_filtered_items(m_or_s, pedestal)
 		if not m_or_s then
-			item_id_rollto = BabyItemPool:GetCollectible(Isaac.GetPoolIdByName("tormlilithbabypool"))
+			item_id_rollto = ItemPool:GetCollectible(Isaac.GetPoolIdByName("tormlilithbabypool"))
 			if Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality < 2 then
 				birthright_filtered_items(m_or_s, pedestal)
 			else
 				pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, item_id_rollto, true)
 			end
 		else
-			item_id_rollto = BabyItemPool:GetCollectible(math.random(BabyItemPool:GetLastPool()))
+			item_id_rollto = ItemPool:GetCollectible(math.random(ItemPool:GetLastPool()))
 			if Isaac.GetItemConfig():GetCollectible(item_id_rollto).Quality < 2 then
 				birthright_filtered_items(m_or_s, pedestal)
 			else
@@ -36,7 +25,7 @@ function SacraficeItem:SacraficeUse(item)
 	local player_foritems = Isaac.GetPlayer(0)
 	local history = player_foritems:GetHistory()
 	local all_baby_items = {}
-	local baby_item_pool_ids = BabyItemPool:GetCollectiblesFromPool(Isaac.GetPoolIdByName("tormlilithbabypool"))
+	local baby_item_pool_ids = ItemPool:GetCollectiblesFromPool(Isaac.GetPoolIdByName("tormlilithbabypool"))
 	local firstcol = {}
 	for i = 1, #baby_item_pool_ids do
 		table.insert(all_baby_items, baby_item_pool_ids[i].itemID)
@@ -69,7 +58,7 @@ function SacraficeItem:SacraficeUse(item)
 				familiar = familiars[1]
 				familiar_pos = familiar.Position
 				if has_birthright[1] == nil and player:GetName() == "Tormented Lilith" then
-					Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(-1), familiar_pos, Vector.Zero, player_foritems)
+					Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, ItemPool:GetCollectible(-1), familiar_pos, Vector.Zero, player_foritems)
 				else
 					birthright_filtered_items(true, nil)
 				end
@@ -82,7 +71,7 @@ function SacraficeItem:SacraficeUse(item)
 				if has_birthright[1] ~= nil then
 					birthright_filtered_items(false, pedestal)
 				else
-					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, BabyItemPool:GetCollectible(Isaac.GetPoolIdByName("tormlilithbabypool")), true)
+					pedestal:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, ItemPool:GetCollectible(Isaac.GetPoolIdByName("tormlilithbabypool")), true)
 				end
 			end
 		end
